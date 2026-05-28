@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WorkTrack — Corrigo</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; font-family: Verdana, Tahoma, Geneva, sans-serif; font-size: 12px; color: #333; background: #fff; }
+
+  /* Browser chrome */
+  .chrome { background: #dee1e6; border-bottom: 1px solid #b8bcc4; }
+  .tabs { display: flex; align-items: flex-end; padding: 6px 8px 0; gap: 2px; }
+  .tab { background: #f1f3f4; border: 1px solid #c4c8ce; border-bottom: none; border-radius: 7px 7px 0 0; padding: 6px 16px 7px 10px; font-size: 11px; color: #5f6368; display: flex; align-items: center; gap: 7px; max-width: 200px; }
+  .tab.active { background: #fff; color: #202124; }
+  .tab .favicon { width: 13px; height: 13px; background: #4a90d9; border-radius: 2px; flex-shrink: 0; }
+  .tab .x { color: #9aa0a6; font-size: 13px; margin-left: 4px; }
+  .urlbar { display: flex; align-items: center; gap: 10px; background: #fff; padding: 7px 12px; border-bottom: 1px solid #d4d7dc; }
+  .navbtns { color: #5f6368; font-size: 15px; letter-spacing: 6px; }
+  .urlfield { flex: 1; background: #f1f3f4; border-radius: 13px; padding: 6px 14px; font-size: 12px; color: #202124; display: flex; align-items: center; gap: 8px; }
+  .lock { color: #1e8e3e; font-size: 11px; }
+  .browser-icons { color: #5f6368; font-size: 13px; letter-spacing: 5px; }
+
+  /* App */
+  .app { background: #fff; padding: 10px 14px 60px; }
+  .wo-bar { display: flex; align-items: center; gap: 10px; padding: 4px 0 10px; }
+  .wo-icon { width: 18px; height: 16px; background: #6f9fc8; border-radius: 2px; flex-shrink: 0; }
+  .wo-id { font-size: 14px; font-weight: bold; color: #1c4f7c; }
+  .wo-status-label { font-size: 12px; color: #555; }
+  .wo-status-label b { color: #222; }
+
+  .action-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0 14px; flex-wrap: wrap; gap: 8px; }
+  .btn-group { display: flex; gap: 8px; }
+  .wt-btn { background: linear-gradient(#fdfdfd,#e8eaed); border: 1px solid #b4b8bf; border-radius: 3px; padding: 5px 13px; font-size: 11px; color: #333; cursor: pointer; }
+  .wt-btn:hover { background: linear-gradient(#fff,#dfe1e5); }
+  .wt-btn .caret { font-size: 9px; color: #888; margin-left: 5px; }
+  .callout { font-size: 11px; color: #555; }
+  .callout b { color: #1c4f7c; }
+  .callout .code { color: #c0392b; font-weight: bold; }
+
+  .columns { display: flex; gap: 18px; align-items: flex-start; }
+  .col-left { flex: 1.9; }
+  .col-right { flex: 1; }
+
+  .panel { border: 1px solid #cfd6de; margin-bottom: 12px; background: #fff; }
+  .panel-head { background: linear-gradient(#dce8f2,#c4d8e8); border-bottom: 1px solid #b0c4d4; padding: 5px 10px; font-size: 11px; font-weight: bold; color: #2c5777; display: flex; align-items: center; gap: 10px; }
+  .panel-head .edit { font-weight: normal; color: #3a7ab5; font-size: 10.5px; text-decoration: underline; cursor: pointer; }
+  .panel-body { padding: 11px 13px; font-size: 11.5px; line-height: 1.85; }
+
+  .row2 { display: flex; }
+  .row2 > div { flex: 1; }
+  .lbl { color: #555; }
+  .lbl b { color: #1a1a1a; }
+  .val-link { color: #2f6fb0; text-decoration: none; }
+  .val-link:hover { text-decoration: underline; }
+  .indent { padding-left: 14px; }
+
+  .nte-box { background: #316ac5; color: #fff; padding: 1px 6px; display: inline-block; border-radius: 1px; }
+
+  .footer-links { text-align: center; padding: 26px 0 0; }
+  .footer-links .fl-title { font-size: 11px; font-weight: bold; color: #7a7a7a; letter-spacing: 1px; border-bottom: 1px solid #e2e2e2; padding-bottom: 6px; margin-bottom: 14px; }
+  .footer-links .sc-label { font-size: 11px; color: #777; margin-bottom: 6px; }
+  .footer-links ul { list-style: disc; display: inline-block; text-align: left; padding-left: 18px; }
+  .footer-links li { font-size: 11px; margin: 3px 0; }
+  .footer-links a { color: #2f6fb0; text-decoration: underline; }
+
+  .winbar { background: linear-gradient(#4a4f57,#33373d); height: 26px; }
+</style>
+</head>
+<body>
+
+  <div class="winbar"></div>
+
+  <div class="chrome">
+    <div class="tabs">
+      <div class="tab active"><span class="favicon"></span>WorkTrack<span class="x">×</span></div>
+      <div class="tab"><span class="favicon"></span>Home<span class="x">×</span></div>
+      <div class="tab"><span class="favicon"></span>My Dashboard - Corrigo<span class="x">×</span></div>
+    </div>
+    <div class="urlbar">
+      <span class="navbtns">‹ › ⟳</span>
+      <div class="urlfield"><span class="lock">🔒</span> https://wt620fp.corrigo.com/Corp/default.aspx</div>
+      <span class="browser-icons">☆ ▣ ▢ ▦ ⋮</span>
+    </div>
+  </div>
+
+  <div class="app">
+
+    <div class="wo-bar">
+      <span class="wo-icon"></span>
+      <span class="wo-id">WB5450048 for Corrigo Demo</span>
+      <span class="wo-status-label">Status: <b>Picked Up</b></span>
+    </div>
+
+    <div class="action-row">
+      <div class="btn-group">
+        <button class="wt-btn">Set Status <span class="caret">▼</span></button>
+        <button class="wt-btn">Printer-Friendly</button>
+      </div>
+      <div class="callout">
+        <b>Check WorkTrack call:</b> &nbsp;(800) 933-4019 &nbsp;&nbsp; Enter Code: <span class="code">123110790</span>
+      </div>
+    </div>
+
+    <div class="columns">
+
+      <div class="col-left">
+
+        <div class="panel">
+          <div class="panel-head">Customer <span class="edit">edit</span></div>
+          <div class="panel-body">
+            <div class="row2">
+              <div>
+                <div class="lbl"><b>Customer:</b> Corrigo Demo</div>
+                <div class="lbl"><b>Service Location:</b> Bank #645</div>
+                <div class="indent">3352 SW Delaney Pl</div>
+                <div class="indent">Portland, OR 97225</div>
+              </div>
+              <div>
+                <div class="lbl"><b>Contact:</b> John Employee</div>
+                <div class="lbl"><a href="#" class="val-link">e05@test.corrigo.com</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">Problem <span class="edit">edit</span></div>
+          <div class="panel-body">
+            <div class="lbl"><b>Work Order Type:</b> Request</div>
+            <div style="margin-top:4px;"><b>Air Conditioning and Heating (Int) Too Cold</b></div>
+            <div>Air Conditioning and Heating</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">Quote <span class="edit">edit</span></div>
+          <div class="panel-body">
+            <div class="row2">
+              <div class="lbl"><b>Status:</b> Not submitted</div>
+              <div class="lbl"><b>Amount:</b> $0.00</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">Work Done <span class="edit">edit</span></div>
+          <div class="panel-body">
+            <div class="lbl"><b>Description:</b></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">Invoice <span class="edit">edit</span></div>
+          <div class="panel-body">
+            <div class="row2">
+              <div>
+                <div class="lbl"><b>Status:</b> Not prepared</div>
+                <div class="lbl"><b>NTE:</b> <span class="nte-box">$500.00</span></div>
+              </div>
+              <div class="lbl"><b>Amount:</b> $0.00</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-right">
+
+        <div class="panel">
+          <div class="panel-head">Schedule <span class="edit">edit</span></div>
+          <div class="panel-body">
+            <div class="lbl"><b>Priority:</b> Non Urgent</div>
+            <div class="lbl"><b>Due By:</b> 11/15/2016 12:30 PM</div>
+            <div class="lbl"><b>Appointment Type:</b> Needs to be scheduled</div>
+            <div class="lbl"><b>ETA:</b></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">Messages <span class="edit">send or view</span></div>
+          <div class="panel-body">
+            <div class="lbl">No Messages...</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">Attachments <span class="edit">add</span></div>
+          <div class="panel-body">
+            <div class="lbl">No attachments...</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="footer-links">
+      <div class="fl-title">USEFUL LINKS &amp; RESOURCES</div>
+      <div class="sc-label">Shortcuts</div>
+      <ul>
+        <li><a href="#">See the action log for this Work Order</a></li>
+        <li><a href="#">See Service History for the Service Location in this Work Order</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+</body>
+</html>
